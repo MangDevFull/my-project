@@ -8,8 +8,9 @@ const { Option } = Select;
 const { TextArea } = Input;
 interface Props {
   isModalVisible: boolean;
+  cancelModal: any
 };
-const AddNewSpending: React.FC<Props> = ({ isModalVisible }) => {
+const AddNewSpending: React.FC<Props> = ({ isModalVisible,cancelModal }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const hanldeMoney = (value: number | string) => {
     console.log('changed', value);
@@ -23,14 +24,14 @@ const AddNewSpending: React.FC<Props> = ({ isModalVisible }) => {
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
-  const dummyRequest = () => {
-    // setTimeout(() => {
-    //   onSuccess("ok");
-    // }, 0);
+  const dummyRequest = (e: any) => {
+    setTimeout(() => {
+     e.onSuccess("ok");
+    }, 0);
   };
   return (
     <>
-      <Modal title="Add new spending" visible={isModalVisible}>
+      <Modal title="Add new spending" visible={isModalVisible} style={{ top: 20 }} onCancel={cancelModal}>
         <Form
           name="basic"
           labelCol={{ span: 24 }}
@@ -60,7 +61,7 @@ const AddNewSpending: React.FC<Props> = ({ isModalVisible }) => {
           >
             <Select
               showSearch
-              placeholder="Select a person"
+              placeholder="Select a category"
               optionFilterProp="children"
               onChange={handleCate}
               filterOption={(input, option) =>
@@ -87,9 +88,8 @@ const AddNewSpending: React.FC<Props> = ({ isModalVisible }) => {
             <DatePicker onChange={hanldeDate} format={"dddd, YYYY/MM/DD"} style={{ width: "100%" }} />
           </Form.Item>
           <Form.Item
-            label="Date"
-            name="date"
-            rules={[{ required: true, message: 'Please choose date!' }]}
+            label="Image"
+            name="image"
           >
             <ImgCrop rotate>
               <Upload

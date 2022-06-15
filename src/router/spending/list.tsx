@@ -137,6 +137,9 @@ const SpendingIndex: React.FC = () => {
   const showModal = ()=>{
     setIsModalVisible(true)
   }
+  const cancelModal = ()=>{
+    setIsModalVisible(false)
+  }
 
   return (
     <>
@@ -160,7 +163,7 @@ const SpendingIndex: React.FC = () => {
         <Pagination current={page} total={total}
           onChange={(page, pageSize) => onChangePage(page, pageSize)} />
       </div>
-      <AddNew isModalVisible={isModalVisible} />
+      <AddNew isModalVisible={isModalVisible} cancelModal={cancelModal} />
     </>
 
   )
