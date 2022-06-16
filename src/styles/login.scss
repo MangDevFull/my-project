@@ -61,8 +61,20 @@ body {
 #login-form .ant-input-affix-wrapper {
   padding: 12px 15px;
 }
-#login-form_username {
+#login-form_username  {
   height: 48px;
+}
+#login-form_name {
+  height: 48px;
+}
+#login-form_phone {
+  height: 48px;
+}
+#login-form_gender {
+  height: 48px;
+}
+#login-form_date {
+  height: 35px;
 }
 #login-form .ant-btn {
   height: 42px;

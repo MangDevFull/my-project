@@ -29,16 +29,17 @@ const getInstance = () => {
     (response : any) => {
       if (response.status === 401) {
         //add your code
-        window.replace('/signin');
+        window.replace('/login');
       }
       return response;
     },
     (error: any) => {
+      console.log(error);
       if (error.response.status === 401 && localStorage.getItem('token')) {
         localStorage.removeItem('token')
         localStorage.removeItem('userId')
         // window.location.reload()
-        window.replace('/signin');
+        window.replace('/login');
       }
       if (error.response && error.response.data) {
         //add your code
