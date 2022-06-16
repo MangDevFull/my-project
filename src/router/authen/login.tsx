@@ -1,14 +1,37 @@
-import React from "react";
-import { Form, Button, Input, Checkbox } from "antd"
+import React,{ useState,useRef,useEffect} from "react";
+import { Form, Button, Input, message } from "antd"
 import '../../styles/login.scss'
+import {payloadSubmitLogin} from "../../interfaces/payloadSubmitLogin"
+import API from "./API"
 const LoginPage: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const inputEmail = useRef<any>(null)
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("")
+  const onFinish = async (values: any) => {
+    const params: payloadSubmitLogin ={
+      email: email,
+      password: password,
+    }
+    const response = await API.login(params)
+    if(response.status ===200){
+      const {data} = response.data
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    message.error("You don't enter enough fields")
   };
+  const handleEmail = (e: React.FormEvent<HTMLInputElement>) => {
+    setEmail( e.currentTarget.value);
+  }
+  const handlePassword = (e: React.FormEvent<HTMLInputElement>) => {
+    setPassword( e.currentTarget.value);
+  }
+
+  useEffect(() => {
+    inputEmail.current.focus()
+  },[])
+
   return (
     <>
       <div className="login-page">
@@ -26,10 +49,12 @@ const LoginPage: React.FC = () => {
             <p>Login to the Dashboard</p>
             <Form.Item
               name="username"
-              rules={[{ required: true, message: 'Please input your username!' }]}
+              rules={[{ required: true, message: 'Please input your email!',type: "email", }]}
             >
               <Input
-                placeholder="Username"
+                placeholder="Please input your email"
+                onChange={handleEmail}
+                ref={inputEmail}
               />
             </Form.Item>
 
@@ -39,11 +64,8 @@ const LoginPage: React.FC = () => {
             >
               <Input.Password
                 placeholder="Password"
+                onChange={handlePassword}
               />
-            </Form.Item>
-
-            <Form.Item name="remember" valuePropName="checked">
-              <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
             <Form.Item>

@@ -1,12 +1,13 @@
 import axios from "axios";
 import URL from "./ApiUrl";
+let window: any;
 const getInstance = () => {
   const instance = axios.create({
     baseURL: URL.baseUrl,
     timeout: 30000,
   });
   instance.interceptors.request.use(
-    (config) => {
+    (config :any) => {
       let token = localStorage.getItem("token");
       if (!token) {
         return config;
@@ -19,20 +20,20 @@ const getInstance = () => {
 
       return config;
     },
-    (err) => {
+    (err:any) => {
       console.log("err: " + err);
       return Promise.reject(err);
     }
   );
   instance.interceptors.response.use(
-    (response) => {
+    (response : any) => {
       if (response.status === 401) {
         //add your code
         window.replace('/signin');
       }
       return response;
     },
-    (error) => {
+    (error: any) => {
       if (error.response.status === 401 && localStorage.getItem('token')) {
         localStorage.removeItem('token')
         localStorage.removeItem('userId')
@@ -50,7 +51,7 @@ const getInstance = () => {
   return instance;
 };
 
-const API = {
+const API: any = {
   instance: getInstance(),
 };
 
