@@ -1,16 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Form, Button, Input, message } from "antd"
 import { payloadSubmitLogin } from "../../interfaces/payloadSubmitLogin"
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Add_Infor_Account_Action } from "../../redux/actions/account.action"
 import API from "./API"
 const LoginPage: React.FC = () => {
   let navigate = useNavigate();
+  const dispatch = useDispatch()
   const inputEmail = useRef<any>(null)
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("")
   const onFinish = async (values: any) => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("userId")
+    localStorage.removeItem("myProjectToken")
+    localStorage.removeItem("myProjectuserId")
     const params: payloadSubmitLogin = {
       email: email,
       password: password,
@@ -19,10 +22,15 @@ const LoginPage: React.FC = () => {
     if (response.status === 200) {
       const { data } = response
       if (data.status === 200) {
-        const { token, userId } = data
-        localStorage.setItem("token", JSON.stringify(token))
-        localStorage.setItem("userId", JSON.stringify(userId))
-        navigate(`/home`, { replace: true });
+        console.log(data)
+        const { token, userId } = data.data
+        localStorage.setItem("myProjectToken", JSON.stringify(token))
+        localStorage.setItem("myProjectuserId", JSON.stringify(userId))
+        dispatch(Add_Infor_Account_Action({
+          accountInfor: data.data.account,
+          userId: userId,
+        }))
+        navigate(`/`, { replace: true });
       } else {
         message.error(data.message)
       }

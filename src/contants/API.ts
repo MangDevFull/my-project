@@ -8,7 +8,7 @@ const getInstance = () => {
   });
   instance.interceptors.request.use(
     (config :any) => {
-      let token = localStorage.getItem("token");
+      let token = localStorage.getItem("myProjectToken");
       if (!token) {
         return config;
       }
@@ -35,9 +35,9 @@ const getInstance = () => {
     },
     (error: any) => {
       console.log(error);
-      if (error.response.status === 401 && localStorage.getItem('token')) {
-        localStorage.removeItem('token')
-        localStorage.removeItem('userId')
+      if (error.response.status === 401 && localStorage.getItem('myProjectToken')) {
+        localStorage.removeItem('myProjectToken')
+        localStorage.removeItem('myProjectuserId')
         // window.location.reload()
         window.replace('/login');
       }
@@ -54,6 +54,10 @@ const getInstance = () => {
 
 const API: any = {
   instance: getInstance(),
+};
+
+API.getMe = (): any => {
+  return API.instance.get(`/`);
 };
 
 export default API;

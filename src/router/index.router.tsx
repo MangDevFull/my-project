@@ -15,7 +15,6 @@ const AppRoute: React.FC = () => {
           <Route path="/spending" element={<SpendingIndex />} />
         </Routes>
       </Layout>
-
     </>
   )
 
