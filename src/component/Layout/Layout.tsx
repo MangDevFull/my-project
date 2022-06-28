@@ -8,7 +8,8 @@ import {
   MenuFoldOutlined,
   HomeOutlined,
   LogoutOutlined,
-  PlusOutlined
+  PlusOutlined,
+  PicCenterOutlined
 } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux';
@@ -48,7 +49,7 @@ const App: React.FC<Props> = (props: Props) => {
   const hanldeLogout = useCallback(() => {
     localStorage.removeItem('myProjectToken')
     localStorage.removeItem('myProjectuserId')
-    navigate(`../login`,{ replace: true });
+    navigate(`../login`, { replace: true });
   }, [])
   const menu = (
     <Menu
@@ -95,6 +96,11 @@ const App: React.FC<Props> = (props: Props) => {
           <Menu.Item key="/income">
             <Link to="/income">
               <PlusOutlined /> <span style={{ marginTop: "20px" }}>Income</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/categories">
+            <Link to="/categories">
+              <PicCenterOutlined /> <span style={{ marginTop: "20px" }}>Category</span>
             </Link>
           </Menu.Item>
 
