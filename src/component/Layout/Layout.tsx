@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Avatar } from 'antd';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Layout, Menu, Avatar, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import "../styles/layout.scss"
+import "../../styles/layout.scss"
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -12,9 +12,9 @@ import {
 } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux';
-import { selectorAccount } from "../redux/selectors"
-import { Add_Infor_Account_Action } from "../redux/actions/account.action"
-import API from "../contants/API"
+import { selectorAccount } from "../../redux/selectors"
+import { Add_Infor_Account_Action } from "../../redux/actions/account.action"
+import API from "../../contants/API"
 const { Header, Sider, Content } = Layout;
 interface Props {
   children: React.ReactNode
@@ -37,14 +37,42 @@ const App: React.FC<Props> = (props: Props) => {
           userId: data.data._id,
         }))
       } else if (data.status === 401) {
-        navigate(`/login`, { replace: true });
+        navigate(`/login`);
       }
     }
   }
   useEffect(() => {
     getInfro()
   }, [])
-  console.log({ account })
+
+  const hanldeLogout = useCallback(() => {
+    localStorage.removeItem('myProjectToken')
+    localStorage.removeItem('myProjectuserId')
+    navigate(`../login`,{ replace: true });
+  }, [])
+  const menu = (
+    <Menu
+      className="p-1"
+      items={[
+        {
+          key: '1',
+          label: (
+            <a className="hanlde">
+              Account
+            </a>
+          ),
+        },
+        {
+          key: '2',
+          label: (
+            <a
+              onClick={hanldeLogout}
+              className="handle">Log out</a>
+          ),
+        },
+      ]}
+    />
+  );
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed} breakpoint="lg">
@@ -78,8 +106,10 @@ const App: React.FC<Props> = (props: Props) => {
             className: 'trigger',
             onClick: () => setCollapsed(!collapsed),
           })}
-          <div style={{float: 'right'}}>
-           {account?.accountInfor?.profile.avatar ? <Avatar src={account.accountInfor.profile.avatar} /> :<Avatar size={40} icon={<UserOutlined />} />}
+          <div style={{ float: 'right' }}>
+            <Dropdown overlay={menu} placement="bottom" arrow>
+              {account?.accountInfor?.profile.avatar ? <Avatar className="handle" src={account.accountInfor.profile.avatar} /> : <Avatar size={40} icon={<UserOutlined />} />}
+            </Dropdown>
           </div>
         </Header>
         <Content

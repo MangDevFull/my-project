@@ -4,13 +4,16 @@ import {
   Routes,
 } from "react-router-dom";
 import React from 'react';
-import Layout from "../component/Layout"
+import Layout from "../component/Layout/index"
 import { SpendingIndex } from "./spending"
+import { LoginPage, SignupPage } from "./authen/index"
 const AppRoute: React.FC = () => {
   return (
     <>
       <Layout>
         <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/" element={<Home />} />
           <Route path="/spending" element={<SpendingIndex />} />
         </Routes>

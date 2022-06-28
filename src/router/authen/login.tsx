@@ -23,9 +23,10 @@ const LoginPage: React.FC = () => {
       const { data } = response
       if (data.status === 200) {
         console.log(data)
-        const { token, userId } = data.data
+        const { token, userId,refreshToken } = data.data
         localStorage.setItem("myProjectToken", JSON.stringify(token))
         localStorage.setItem("myProjectuserId", JSON.stringify(userId))
+        localStorage.setItem("myProjectrefreshToken", JSON.stringify(refreshToken))
         dispatch(Add_Infor_Account_Action({
           accountInfor: data.data.account,
           userId: userId,
@@ -53,7 +54,6 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-
       <Form
         name="login-form"
         initialValues={{ remember: true }}
