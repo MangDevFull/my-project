@@ -22,7 +22,6 @@ const LoginPage: React.FC = () => {
     if (response.status === 200) {
       const { data } = response
       if (data.status === 200) {
-        console.log(data)
         const { token, userId,refreshToken } = data.data
         localStorage.setItem("myProjectToken", JSON.stringify(token))
         localStorage.setItem("myProjectuserId", JSON.stringify(userId))
@@ -31,7 +30,7 @@ const LoginPage: React.FC = () => {
           accountInfor: data.data.account,
           userId: userId,
         }))
-        navigate(`/`, { replace: true });
+        navigate(`/home`, { replace: true });
       } else {
         message.error(data.message)
       }

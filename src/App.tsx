@@ -7,5 +7,4 @@ function App() {
     <AppRoute />
   )
 }
-
 export default App

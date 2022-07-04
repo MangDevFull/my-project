@@ -11,36 +11,37 @@ import {
   PlusOutlined,
   PicCenterOutlined
 } from '@ant-design/icons';
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, Outlet } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux';
 import { selectorAccount } from "../../redux/selectors"
 import { Add_Infor_Account_Action } from "../../redux/actions/account.action"
 import API from "../../contants/API"
 const { Header, Sider, Content } = Layout;
-interface Props {
-  children: React.ReactNode
-}
-const App: React.FC<Props> = (props: Props) => {
+// interface Props {
+//   children: React.ReactNode
+// }
+const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const account = useSelector(selectorAccount)
+  console.log("Account: ", account)
   let navigate = useNavigate();
   const dispatch = useDispatch()
   const getInfro = async (): Promise<any> => {
-    if (account.userId === "") {
+   
       const response = await API.getMe()
-      if (response.status === 401) {
-        navigate(`/login`, { replace: true });
-      }
-      const { data } = response
-      if (data.status === 200) {
-        dispatch(Add_Infor_Account_Action({
-          accountInfor: data.data,
-          userId: data.data._id,
-        }))
-      } else if (data.status === 401) {
-        navigate(`/login`);
-      }
-    }
+      console.log("resss", response)
+      // if (response.status === 401) {
+      //   navigate(`/login`, { replace: true });
+      // }
+      // const { data } = response
+      // if (data.status === 200) {
+      //   dispatch(Add_Infor_Account_Action({
+      //     accountInfor: data.data,
+      //     userId: data.data._id,
+      //   }))
+      // } else if (data.status === 401) {
+      //   navigate(`/login`);
+      // }
   }
   useEffect(() => {
     getInfro()
@@ -51,6 +52,7 @@ const App: React.FC<Props> = (props: Props) => {
     localStorage.removeItem('myProjectuserId')
     navigate(`../login`, { replace: true });
   }, [])
+
   const menu = (
     <Menu
       className="p-1"
@@ -126,7 +128,7 @@ const App: React.FC<Props> = (props: Props) => {
             minHeight: 280,
           }}
         >
-          {props.children}
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
