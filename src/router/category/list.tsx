@@ -13,6 +13,7 @@ const CategoryPage: React.FC = () => {
   const [list, setList] = useState<TableCategoryForCustomer[]>([])
   const [total, setTotal] = useState<number>(0)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   useLayoutEffect(() => {
     getCategoryList(limit, page)
   }, [limit, page])
@@ -20,11 +21,11 @@ const CategoryPage: React.FC = () => {
     const response = await API.getCategoryListforCustomer()
     const { data } = response
     if (data.status === 200) {
-      console.log(data)
       setList(data.data.docs)
       setLimit(data.data.limit)
       setPage(data.data.page)
       setTotal(data.data.total)
+      setIsLoading(false)
     }
   }
   const showModal = () => {
@@ -113,7 +114,7 @@ const CategoryPage: React.FC = () => {
   };
   return (
     <>
-      {list.length > 0 ?
+      {!isLoading ?
         <>
           <div className="mb-2 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}>Add new category</Button>

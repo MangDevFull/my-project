@@ -3,6 +3,7 @@ import { Modal, Form, Input, Upload, message } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { AddNewCategoryIf } from "../../interfaces/payloadCategory"
+import API from "../../contants/API"
 const { TextArea } = Input;
 interface Props {
   isModalVisible: boolean;
@@ -40,13 +41,19 @@ const AddNewCategory: React.FC<Props> = ({ isModalVisible, cancelModal }) => {
           image: image,
         }
       }
-      if(note !==""){
-        payload ={
+      if (note !== "") {
+        payload = {
           ...payload,
           note: note
         }
       }
-      console.log(payload)
+      const response = await API.createCategoryForCustomer(payload)
+
+      const { data } = response
+
+      if (data.status === 200) {
+          
+      }
     }
   }
   return (

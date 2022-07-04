@@ -27,24 +27,27 @@ const App: React.FC = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch()
   const getInfro = async (): Promise<any> => {
-   
-      const response = await API.getMe()
-      console.log("resss", response)
-      // if (response.status === 401) {
-      //   navigate(`/login`, { replace: true });
-      // }
-      // const { data } = response
-      // if (data.status === 200) {
-      //   dispatch(Add_Infor_Account_Action({
-      //     accountInfor: data.data,
-      //     userId: data.data._id,
-      //   }))
-      // } else if (data.status === 401) {
-      //   navigate(`/login`);
-      // }
+    const response = await API.getMe()
+    console.log("res",response)
+    if (response.status === 401) {
+      navigate(`/login`, { replace: true });
+    }
+    const { data } = response
+    if (data.status === 200) {
+      dispatch(Add_Infor_Account_Action({
+        accountInfor: data.data,
+        userId: data.data._id,
+      }))
+    } else if (data.status === 401) {
+      navigate(`/login`);
+    }
   }
   useEffect(() => {
-    getInfro()
+    if (!account.accountInfor) {
+      navigate(`/login`);
+    } else {
+      getInfro()
+    }
   }, [])
 
   const hanldeLogout = useCallback(() => {

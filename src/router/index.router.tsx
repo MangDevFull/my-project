@@ -11,19 +11,17 @@ import Layout from "../component/Layout/Layout"
 import LayoutAuthen from "../component/Layout/LayoutAuthen"
 const AppRoute: React.FC = () => {
   return (
-    <>
-      <Routes>
-        <Route element={<LayoutAuthen />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-        </Route>
-        <Route element={<Layout />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/spending" element={<SpendingIndex />} />
-          <Route path="/categories" element={<CategoryPage />} />
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route element={<LayoutAuthen />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+      </Route>
+      <Route element={<Layout />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/spending" element={<SpendingIndex />} />
+        <Route path="/categories" element={<CategoryPage />} />
+      </Route>
+    </Routes>
   )
 
 };
